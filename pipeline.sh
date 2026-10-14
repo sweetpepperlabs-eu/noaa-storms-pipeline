@@ -16,9 +16,9 @@ usage() {
   cat <<EOF
 Usage: $(basename "$0") YEAR
 
-Download the NOAA Storm Events details CSV for YEAR, decompress it, and
-convert it to GeoParquet with ogr2ogr (Point geometry from BEGIN_LON /
-BEGIN_LAT, CRS ${CRS}).
+Download only the NOAA Storm Events details file for YEAR (not locations
+or fatalities), decompress it, and convert it to GeoParquet with ogr2ogr
+(Point geometry from BEGIN_LON / BEGIN_LAT, CRS ${CRS}).
 
 Example:
   $(basename "$0") 2024
@@ -79,8 +79,9 @@ parquet_path="${PROCESSED_DIR}/storm_events_${YEAR}.parquet"
 mkdir -p "${RAW_DIR}" "${PROCESSED_DIR}"
 
 echo "Using ${OGR2OGR_BIN} ($("${OGR2OGR_BIN}" --version | head -n 1))"
-echo "Fetching NOAA Storm Events file list..."
+echo "Fetching NOAA Storm Events details file list..."
 listing="$(curl -fsSL "${BASE_URL}/")"
+# Details files only, e.g. StormEvents_details-ftp_v1.0_d2024_c20260728.csv.gz
 filename="$(
   printf '%s\n' "${listing}" \
     | grep -oE "StormEvents_details-ftp_v[0-9.]+_d${YEAR}_c[0-9]+\.csv\.gz" \
