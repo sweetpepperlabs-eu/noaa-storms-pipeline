@@ -118,3 +118,9 @@ ogrinfo -so data/processed/storm_events_2024.parquet
 ```
 
 You should see layer `storm_events`, geometry type Point, and SRS `EPSG:4326`.
+
+## What I learned
+
+1. I learned to run small pipeline using shell commands.
+2. Fine tuning the instruction until I reach the goal.
+3. I learned a couple of commands from GDAL. 
